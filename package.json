@@ -1,0 +1,31 @@
+{
+  "name": "bilrost",
+  "version": "0.1.0",
+  "description": "Lower level component used to communicate with the Azure messaging system.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Filmpond/bilrost.git"
+  },
+  "author": "Shirren Premaratne <shirren.premaratne@gmail.com> (https://github.com/shirren)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Filmpond/bilrost/issues"
+  },
+  "homepage": "https://github.com/Filmpond/bilrost#readme",
+  "dependencies": {
+    "azure-sb": "~0.10.4",
+    "nconf": "~0.8.4",
+    "winston": "~2.3.0"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.4.5",
+    "grunt": "^1.0.1",
+    "grunt-contrib-jshint": "^1.0.0",
+    "grunt-mocha-test": "^0.12.7"
+  }
+}

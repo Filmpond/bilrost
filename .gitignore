@@ -1,0 +1,7 @@
+node_modules
+coverage
+config.json
+logs
+.DS_Store
+
+*.tgz
