@@ -1,7 +1,10 @@
 node_modules
 coverage
 config.json
+
 logs
+*.log
+
 .DS_Store
 
 *.tgz
