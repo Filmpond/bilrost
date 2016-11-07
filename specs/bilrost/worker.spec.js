@@ -1,5 +1,6 @@
 'use strict';
 
+var common  = require('../specs.common')();
 var nconf = require('nconf'),
   bus = require('../../lib/bilrost/bus')(),
   expect  = require('chai').expect,
@@ -7,27 +8,29 @@ var nconf = require('nconf'),
   Worker = require('../../lib/bilrost/worker');
 
 describe('Worker', function() {
-  this.timeout(200000);
 
-  var topicName = 'test-topic';
+  this.timeout(200000); // We set a higher timeout just for this spec
+
+  var topicName = 'worker-test-topic';
   var subscriberName = 'test-subscription';
 
-  beforeEach(function(done) {
-    bus.createTopicIfNotExists(topicName, function(error) {
-      bus.createSubscription(topicName, subscriberName, function(error) {
-        var msg = new Message('some_data');
-        msg.postTo(topicName, done);
+  before(function(done) {
+    setTimeout(function() {
+      bus.createTopicIfNotExists(topicName, function(error) {
+        bus.createSubscription(topicName, subscriberName, function(error) {
+          done();
+        });
       });
-    });
+    }, 2000);
   })
 
-  // afterEach(function(done) {
-  //   bus.deleteTopic(topicName, function(error) {
-  //     done();
-  //   });
-  // });
+  after(function(done) {
+    bus.deleteTopic(topicName, function(error) {
+      done();
+    });
+  });
 
-  context('when the WORKER_SLEEP is not set', function() {
+  context('when WORKER_SLEEP is not set', function() {
     beforeEach(function(done) {
       nconf.set('WORKER_SLEEP', undefined);
       done();
@@ -40,13 +43,13 @@ describe('Worker', function() {
     })
   });
 
-  context('when the WORKER_SLEEP is set', function() {
+  context('when WORKER_SLEEP is set', function() {
     beforeEach(function(done) {
       nconf.set('WORKER_SLEEP', 10000);
       done();
     });
 
-    it('should return a default of 10000', function(done) {
+    it('should return the set value of 10000', function(done) {
       var worker = new Worker(topicName, subscriberName, done);
       expect(worker.workerSleep).to.equal(10000);
       done();
@@ -54,39 +57,61 @@ describe('Worker', function() {
   });
 
   context('for a valid topic and subscriber', function() {
-    context('where a message is published once only', function() {
 
-      it('should receive a valid message once only', function(done) {
-        var messageCount = 0;
-        function callback(error, message) {
-          messageCount++;
-          expect(error).to.not.exist;
-          expect(message).to.exist;
-          expect(message.body).to.equal('some_data');
-          expect(messageCount).to.equal(1);
-          done();
-        }
+    context('where an object literal is published', function() {
+
+      beforeEach(function(done) {
+        var msg = new Message({ content: 'some_data' });
+        msg.postTo(topicName, done);
+      })
+
+      it('should receive a literal once', function(done) {
+
         var worker = new Worker(topicName, subscriberName, callback);
         worker.receive();
+
+        function callback(error, message) {
+          expect(error).to.not.exist;
+          expect(message).to.exist;
+          expect(message.body.content).to.equal('some_data');
+          expect(message.properties.DeliveryCount).to.equal(1);
+          done();
+        }
+      });
+
+      it('should be terminatable', function(done) {
+
+        var worker = new Worker(topicName, subscriberName, callback);
+        worker.run();
+
+        function callback(error, message) {
+          expect(error).to.not.exist;
+          expect(message).to.exist;
+          worker.terminate();
+          done();
+        }
       });
     });
 
-    context.only('where a message is published twice', function() {
+    context('where a string is published', function() {
 
       beforeEach(function(done) {
-        var msg = new Message('more_data');
+        var msg = new Message('wow');
         msg.postTo(topicName, done);
-      });
+      })
 
-      it('should receive a valid message twice', function(done) {
+      it('should receive a string once', function(done) {
+
+        var worker = new Worker(topicName, subscriberName, callback);
+        worker.receive();
 
         function callback(error, message) {
-          console.log('Message received: ' + JSON.stringify(message));
           expect(error).to.not.exist;
           expect(message).to.exist;
+          expect(message.body).to.equal('wow');
+          expect(message.properties.DeliveryCount).to.equal(1);
+          done();
         }
-        var worker = new Worker(topicName, subscriberName, callback);
-        worker.run();
       });
     });
   });
