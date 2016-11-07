@@ -79,7 +79,7 @@ describe('Worker', function() {
         }
       });
 
-      it('should be terminatable', function(done) {
+      it.skip('should be terminatable', function(done) {
 
         var worker = new Worker(topicName, subscriberName, callback);
         worker.run();

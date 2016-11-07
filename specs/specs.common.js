@@ -2,6 +2,9 @@
 
 var winston = require('winston');
 
+/**
+ * Global configuration for the specs/tests
+ */
 module.exports = function() {
   try {
     winston.remove(winston.transports.Console);
