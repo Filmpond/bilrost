@@ -10,12 +10,12 @@
     "type": "git",
     "url": "git+https://github.com/Filmpond/bilrost.git"
   },
-  "author": "Shirren Premaratne <shirren.premaratne@gmail.com> (https://github.com/shirren)",
+  "author": "Shirren Premaratne <shirren@me.com> (https://github.com/shirren)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Filmpond/bilrost/issues"
+    "url": "https://github.com/shirren/bilrost/issues"
   },
-  "homepage": "https://github.com/Filmpond/bilrost#readme",
+  "homepage": "https://github.com/shirren/bilrost#readme",
   "dependencies": {
     "azure-sb": "~0.10.4",
     "nconf": "~0.8.4",
