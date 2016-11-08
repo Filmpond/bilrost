@@ -82,6 +82,7 @@ describe('Worker', function() {
       it.skip('should be terminatable', function(done) {
 
         var worker = new Worker(topicName, subscriberName, callback);
+        console.log('Running worker 1');
         worker.run();
 
         function callback(error, message) {

@@ -1,7 +1,7 @@
 {
   "name": "bilrost",
   "version": "0.1.0",
-  "description": "Lower level component used to communicate with the Azure messaging system.",
+  "description": "Lower level pub/sub component for use with the Azure message bus.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
