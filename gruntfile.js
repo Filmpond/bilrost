@@ -18,11 +18,10 @@ module.exports = function(grunt) {
   });
 
   [
-    'grunt-mocha-test',
-    'grunt-contrib-jshint'
+    'grunt-mocha-test'
   ].forEach(function(task) {
     grunt.loadNpmTasks(task);
   });
 
-  grunt.registerTask('default', ['mochaTest', 'jshint']);
+  grunt.registerTask('default', ['mochaTest']);
 };
