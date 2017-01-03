@@ -1,6 +1,6 @@
 {
   "name": "bilrost",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Lower level pub/sub component for use with the Azure message bus.",
   "main": "index.js",
   "scripts": {

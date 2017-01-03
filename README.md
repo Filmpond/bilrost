@@ -55,13 +55,15 @@ var worker = new Worker('topic_name', 'subscriber_name', callback);
 worker.run();
 ```
 
-Each worker is provided with a `callback` function. This function is invoked each time it receives a message from the message bus. The `run` function is asynchronous (i.e. non blocking), so ensure the primary code block does not terminate or else the `callback` function will never be invoked. A `callback` function must have the following signature;
+Each worker is provided with a `callback` function. This function is invoked each time it receives a message from the message bus. The `run` function is asynchronous (i.e. non blocking). A `callback` function must have the following signature;
 
 ```javascript
-function callback(error, message) {}
+function callback(message) {}
 ```
 
-The first parameter is an error object. If the error object is populated then the message is often an empty literal. A message has 2 properties `body` and `properties`. `body` is the original message posted to the bus. Each message has some associated meta data. This meta data is accessible through the `properties` attribute.
+A message has 2 properties `body` and `properties`. `body` is the original message posted to the bus. Each message has some associated meta data. This meta data is accessible through the `properties` attribute. The callback function should return a boolean type. A true will delete
+the message from the Bifrost. This means, the message will not be re-delivered to the recipient. All other values can result in the
+Bifrost re-delivering the message to the recipient.
 
 # Is it any good?
 
