@@ -35,7 +35,7 @@ To begin using this library we need to set some environment variables;
 * SUBSCRIBER_TIMEOUT
   * This variable is optional, it tells the worker how long to set the timeout when communicating with the message bus. This value is specified in seconds. The default is 30 seconds.
 
-### Exxamples
+### Examples
 
 To publish a message to topic;
 
