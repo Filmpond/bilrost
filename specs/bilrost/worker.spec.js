@@ -1,11 +1,11 @@
 'use strict';
 
-var common  = require('../specs.common')();
-var nconf = require('nconf'),
-  bus = require('../../lib/bilrost/bus')(),
-  expect  = require('chai').expect,
-  Message = require('../../lib/bilrost/message'),
-  Worker = require('../../lib/bilrost/worker');
+var common  = require('../specs.common')()
+  , nconf = require('nconf')
+  , bus = require('../../lib/bilrost/bus')()
+  , expect  = require('chai').expect
+  , Message = require('../../lib/bilrost/message')
+  , Worker = require('../../lib/bilrost/worker');
 
 describe('Worker', function() {
 
@@ -70,8 +70,7 @@ describe('Worker', function() {
         var worker = new Worker(topicName, subscriberName, callback);
         worker.receive();
 
-        function callback(error, message) {
-          expect(error).to.not.exist;
+        function callback(message) {
           expect(message).to.exist;
           expect(message.body.content).to.equal('some_data');
           expect(message.properties.DeliveryCount).to.equal(1);
@@ -85,8 +84,7 @@ describe('Worker', function() {
         console.log('Running worker 1');
         worker.run();
 
-        function callback(error, message) {
-          expect(error).to.not.exist;
+        function callback(message) {
           expect(message).to.exist;
           worker.terminate();
           done();
@@ -101,13 +99,12 @@ describe('Worker', function() {
         msg.postTo(topicName, done);
       })
 
-      it('should receive a string once', function(done) {
+      it.only('should receive a string once', function(done) {
 
         var worker = new Worker(topicName, subscriberName, callback);
         worker.receive();
 
-        function callback(error, message) {
-          expect(error).to.not.exist;
+        function callback(message) {
           expect(message).to.exist;
           expect(message.body).to.equal('wow');
           expect(message.properties.DeliveryCount).to.equal(1);
