@@ -4,6 +4,8 @@ The Bilrost is a Javascript library which can be used to send and receive messag
 using a publish subcribe pattern. It leverages the power of topics and subscribers as provided by the Azure message
 bus and Azure Javascript SDK. In addition it also provides a "worker" style approach to authoring multiple subscribers.
 
+The Bilrost can only be used in an ES6 environment.
+
 ## Installation
 
 Add the following dependency to your package.json file of your project via npm;

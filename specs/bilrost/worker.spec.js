@@ -99,7 +99,7 @@ describe('Worker', function() {
         msg.postTo(topicName, done);
       })
 
-      it.only('should receive a string once', function(done) {
+      it('should receive a string once', function(done) {
 
         var worker = new Worker(topicName, subscriberName, callback);
         worker.receive();
