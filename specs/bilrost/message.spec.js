@@ -1,15 +1,14 @@
 'use strict';
 
-const common  = require('../specs.common')(),
-    MockBus = require('../../lib/bilrost/bus')(),
-    expect  = require('chai').expect,
-    Message = require('../../lib/bilrost/message'),
-    BilrostError = require('../../lib/bilrost/errors/bilrost.error');
+require('../specs.common')();
+
+const MockBus = require('../../lib/bilrost/bus')(),
+  expect  = require('chai').expect,
+  Message = require('../../lib/bilrost/message');
 
 describe('Message', function() {
 
-  var topicName = 'message-test-topic';
-  var subscriberName = 'test-subscription';
+  let topicName = 'message-test-topic';
 
   it('with no content should initialise to an empty literal', done => {
     let msg = new Message();
@@ -24,16 +23,16 @@ describe('Message', function() {
   });
 
   it('should not be postable to an invalid topic', done => {
-    let mockBus = MockBus({ error: 'some error' }, null);
+    let mockBus = MockBus({ error: 'some error' }, null, null);
     let msg = new Message({ content: 'some_data' }, mockBus);
-    msg.postTo('invalid-topic', (error, response) => {
+    msg.postTo('invalid-topic', error => {
       expect(error).to.exist;
       done();
     });
   });
 
   it('should be postable to a valid topic', function(done) {
-    let mockBus = MockBus(null, {});
+    let mockBus = MockBus(null, null, {});
     let msg = new Message('some_data', mockBus);
     msg.postTo(topicName, (error, response) => {
       expect(error).to.not.exist;
