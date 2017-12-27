@@ -18,5 +18,6 @@ module.exports = function() {
     nconf.argv().file({ file: 'config.test.json' });
   }
   catch (e) {
+    winston.error(e.message);
   }
 };

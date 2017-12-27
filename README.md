@@ -57,20 +57,18 @@ var worker = new Worker('topic_name', 'subscriber_name', callback);
 worker.run();
 ```
 
-Each worker is provided with a `callback` function. This function is invoked each time it receives a message from the message bus. The `run` function is asynchronous (i.e. non blocking). A `callback` function must have the following signature;
+Each worker is provided with a `callback` function. This function is invoked each time it receives a message from the message bus. The `run` function is asynchronous (i.e. non blocking). The `callback` function must return a `Promise`, anything other than a promise returned will result in an unhandled Promise error. A `callback` function must also have the following signature;
 
 ```javascript
 function callback(message) {}
 ```
 
-A message has 2 properties `body` and `properties`. `body` is the original message posted to the bus. Each message has some associated meta data. This meta data is accessible through the `properties` attribute. The callback function should return a boolean type. A true will delete
-the message from the Bifrost. This means, the message will not be re-delivered to the recipient. All other values can result in the
-Bifrost re-delivering the message to the recipient.
+A message has 2 properties `body` and `brokerProperties`. `body` is the original message posted to the bus. Each message has some associated meta data. This meta data is accessible through the `brokerProperties` attribute. The callback function must return a `Promise` as mentioned. A `Promise` which resolves will delete the received message from the Bifrost. This means, the message will not be re-delivered to the recipient. A rejected `Promise` will result in the Bifrost re-delivering the message to the recipient. As mentioned earlier a function which does not return a `Promise` will result in an unhandled promise.
 
 # Is it any good?
 
-We are currently [dogfooding](https://en.wikipedia.org/wiki/Eating_your_own_dog_food) this product in our production
-environment. We will no doubt find issues and rectify this over time.
+We have been [dogfooding](https://en.wikipedia.org/wiki/Eating_your_own_dog_food) this product in our production
+environment for the past year with no issues.
 
 # Contributing
 

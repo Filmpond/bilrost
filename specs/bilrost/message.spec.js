@@ -8,8 +8,6 @@ const MockBus = require('../../lib/bilrost/bus')(),
 
 describe('Message', function() {
 
-  let topicName = 'message-test-topic';
-
   it('with no content should initialise to an empty literal', done => {
     let msg = new Message();
     expect(msg.body).to.deep.equal({});
@@ -23,8 +21,8 @@ describe('Message', function() {
   });
 
   it('should not be postable to an invalid topic', done => {
-    let mockBus = MockBus({ error: 'some error' }, null, null);
-    let msg = new Message({ content: 'some_data' }, mockBus);
+    let mockBus = MockBus({ error: 'some error' }, null);
+    let msg = new Message({ content: 'some_data' }, {}, mockBus);
     msg.postTo('invalid-topic', error => {
       expect(error).to.exist;
       done();
@@ -32,9 +30,9 @@ describe('Message', function() {
   });
 
   it('should be postable to a valid topic', function(done) {
-    let mockBus = MockBus(null, null, {});
-    let msg = new Message('some_data', mockBus);
-    msg.postTo(topicName, (error, response) => {
+    let mockBus = MockBus(null, {});
+    let msg = new Message('some_data', {}, mockBus);
+    msg.postTo('valid-topic', (error, response) => {
       expect(error).to.not.exist;
       expect(response).to.exist;
       done();

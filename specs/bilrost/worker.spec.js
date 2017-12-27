@@ -47,7 +47,7 @@ describe('Worker', function() {
       let mockBus = MockBus(null, response);
 
       beforeEach(function(done) {
-        let msg = new Message(response, { DeliveryCount: 1 }, mockBus);
+        let msg = new Message('test_message', {}, mockBus);
         msg.postTo(topicName, done);
       });
 
@@ -56,10 +56,10 @@ describe('Worker', function() {
         let worker = new Worker(topicName, subscriberName, callback, mockBus);
         worker.receive();
 
-        function callback(message) {
-          expect(message).to.exist;
-          expect(message.body.content).to.equal('some_data');
-          expect(message.brokerProperties.DeliveryCount).to.equal(1);
+        function callback(response) {
+          expect(response).to.exist;
+          expect(response.body.content).to.equal('some_data');
+          expect(response.brokerProperties.DeliveryCount).to.equal(1);
           done();
         }
       });
@@ -84,7 +84,7 @@ describe('Worker', function() {
       let mockBus = MockBus(null, response);
 
       beforeEach(function(done) {
-        let msg = new Message('wow', { DeliveryCount: 1 }, mockBus);
+        let msg = new Message('test_message', {}, mockBus);
         msg.postTo(topicName, done);
       });
 
@@ -93,10 +93,10 @@ describe('Worker', function() {
         let worker = new Worker(topicName, subscriberName, callback, mockBus);
         worker.receive();
 
-        function callback(message) {
-          expect(message).to.exist;
-          expect(message.body).to.equal('wow');
-          expect(message.brokerProperties.DeliveryCount).to.equal(1);
+        function callback(response) {
+          expect(response).to.exist;
+          expect(response.body).to.equal('wow');
+          expect(response.brokerProperties.DeliveryCount).to.equal(1);
           done();
         }
       });
