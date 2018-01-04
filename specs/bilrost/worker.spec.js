@@ -20,7 +20,7 @@ describe('Worker', function() {
     });
 
     it('should return a default of 5000', done => {
-      let worker = new Worker(topicName, subscriberName, done);
+      let worker = new Worker(topicName, subscriberName, {}, done);
       expect(worker.workerSleep).to.equal(5000);
       done();
     });
@@ -33,8 +33,24 @@ describe('Worker', function() {
     });
 
     it('should return the set value of 10000', done => {
-      let worker = new Worker(topicName, subscriberName, done);
+      let worker = new Worker(topicName, subscriberName, {}, done);
       expect(worker.workerSleep).to.equal(10000);
+      done();
+    });
+  });
+
+  context('when no options are passed in', function() {
+    it('should set peekLock to true', done => {
+      let worker = new Worker(topicName, subscriberName, {}, done);
+      expect(worker.getOptions({}).isPeekLock).to.be.true;
+      done();
+    });
+  });
+
+  context('when options are passed in', function() {
+    it('should allow peekLock to be settable', done => {
+      let worker = new Worker(topicName, subscriberName, {}, done);
+      expect(worker.getOptions({ non_repeatable: false }).isPeekLock).to.be.false;
       done();
     });
   });
@@ -53,7 +69,7 @@ describe('Worker', function() {
 
       it('should receive a literal once', done => {
 
-        let worker = new Worker(topicName, subscriberName, callback, mockBus);
+        let worker = new Worker(topicName, subscriberName, {}, callback, mockBus);
         worker.receive();
 
         function callback(response) {
@@ -90,7 +106,7 @@ describe('Worker', function() {
 
       it('should receive a string once', function(done) {
 
-        let worker = new Worker(topicName, subscriberName, callback, mockBus);
+        let worker = new Worker(topicName, subscriberName, {}, callback, mockBus);
         worker.receive();
 
         function callback(response) {
