@@ -1,3 +1,4 @@
 {
+  "AZURE_SERVICEBUS_CONNECTION_STRING": "Endpoint=sb://development-bifrost.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=ZG+tGGIJddoz+dvET2pZy8Wb6Bd+qmDdkmKu9MamC5o=",
   "ENV": "test"
 }

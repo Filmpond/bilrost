@@ -56,7 +56,16 @@ var Worker = require('bilrost').Worker;
 var worker = new Worker('topic_name', 'subscriber_name', {}, callback);
 worker.run();
 ```
+
 A worker needs to be provided with an options list in the form of an object literal (i.e. `{}`). The `Bilrost` only supports the `non_repeatable` option for the moment. If this options is set to `false`, the `Bilrost` will pre-emptively delete the received message regardless of whether the worker suceeds or not. This is analogous to the `PeekLock` behaviour in most queues. Note that `PeekLock` is the default behaviour in the `Bilrost`, in other words the `Bilrost` will not delete a message from the queue unless the worker callback function invocation returns a resolved Promise.
+
+To setup a worker which subscribes to messages in a non repeatable manner;
+
+```javascript
+var Worker = require('bilrost').Worker;
+var worker = new Worker('topic_name', 'subscriber_name', { non_repeatable: false }, callback);
+worker.run();
+```
 
 Each worker is provided with a `callback` function. This function is invoked each time it receives a message from the message bus. The `run` function is asynchronous (i.e. non blocking). The `callback` function must return a `Promise`, anything other than a promise returned will result in an unhandled Promise error. A `callback` function must also have the following signature;
 

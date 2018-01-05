@@ -13,6 +13,18 @@ describe('Worker', function() {
   let topicName = 'worker-test-topic';
   let subscriberName = 'test-subscription';
 
+  /*
+  it.skip('should be able to publish and receive with no peekLock', done => {
+    let msg = new Message({ test: 'data' }, {});
+    msg.postTo('test-topic', done);
+    let worker = new Worker('test-topic', 'test-subscriber', { non_repeatable: false }, callback);
+    worker.receive();
+    function callback(response) {
+      expect(response).to.exist;
+      done();
+    }
+  });*/
+
   context('when WORKER_SLEEP is not set', function() {
     beforeEach(done => {
       nconf.set('WORKER_SLEEP', undefined);
