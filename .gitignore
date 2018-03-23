@@ -1,6 +1,9 @@
 node_modules
 coverage
+
+# Ignore configuration and environment files
 config.json
+.env*
 
 logs
 *.log
