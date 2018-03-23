@@ -2,11 +2,10 @@
 
 require('../specs.common')();
 
-var nconf = require('nconf')
-  , MockBus = require('../../lib/bilrost/bus')()
-  , expect  = require('chai').expect
-  , Message = require('../../lib/bilrost/message')
-  , Worker = require('../../lib/bilrost/worker');
+const MockBus = require('../../lib/bilrost/bus')();
+const expect  = require('chai').expect;
+const Message = require('../../lib/bilrost/message');
+const Worker = require('../../lib/bilrost/worker');
 
 describe('Worker', function() {
 
@@ -27,7 +26,7 @@ describe('Worker', function() {
 
   context('when WORKER_SLEEP is not set', function() {
     beforeEach(done => {
-      nconf.set('WORKER_SLEEP', undefined);
+      delete process.env['WORKER_SLEEP'];
       done();
     });
 
@@ -40,13 +39,13 @@ describe('Worker', function() {
 
   context('when WORKER_SLEEP is set', function() {
     beforeEach(done => {
-      nconf.set('WORKER_SLEEP', 10000);
+      process.env['WORKER_SLEEP'] = 10000;
       done();
     });
 
     it('should return the set value of 10000', done => {
       let worker = new Worker(topicName, subscriberName, {}, done);
-      expect(worker.workerSleep).to.equal(10000);
+      expect(worker.workerSleep).to.equal('10000');
       done();
     });
   });
